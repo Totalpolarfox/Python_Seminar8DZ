@@ -49,27 +49,34 @@ def main():
         print('\u001b[32m 3 \u001b[0m - Сохранить новый контакт')
         print('\u001b[32m 4 \u001b[0m - Редактировать контакт')
         print('\u001b[32m 5 \u001b[0m - Удалить контакт')
-        print('\u001b[32m 6 \u001b[0m - Сохранить контакт в новый файл')2
+        print('\u001b[32m 6 \u001b[0m - Сохранить контакт в новый файл')
         print()
         answer = input('\u001b[4mВыберите необходимое действие:\u001b[0m ')
-        if answer == 0:
-            flag == False
-        elif answer == 1:
+        if answer == '0':
+            print('\u001b[32mВыход из программы \u001b[0m')
+            flag = False
+        elif answer == '1':
+            print('\u001b[32mПоказать все контакты \u001b[0m')
             data = read_data(file_name)
             show_data(data)
-        elif answer == 2:
+        elif answer == '2':
+            print('\u001b[32mПоиск контакта \u001b[0m')
             data = read_data(file_name)
             founded_data = search_data(data)
             show_data(founded_data)
-        elif answer == 3:
+        elif answer == '3':
+            print('\u001b[32mСохранить новый контакт \u001b[0m')
             write_data(file_name)
-        elif answer == 4:
+        elif answer == '4':
+            print('\u001b[32mРедактировать контакт \u001b[0m')
             data = read_data(file_name)
             edit_data(data)
-        elif answer == 5:
+        elif answer == '5':
+            print('\u001b[32mУдалить контакт \u001b[0m')
             data = read_data(file_name)
             del_data(data)
-        elif answer == 6:
+        elif answer == '6':
+            print('\u001b[32mСохранить контакт в новый файл \u001b[0m')
             data = read_data(file_name)
             copy_data(data)
 
