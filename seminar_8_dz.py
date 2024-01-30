@@ -18,8 +18,14 @@ def read_data():
     pass
 
 # функция записи данных
-def write_data():
-    pass
+def write_data(file):
+    print('Введите данные контакта:')
+    first_name = input('Введите фамилию: ')
+    last_name = input('Введите имя: ')
+    patronymic = input('Введите отчество: ')
+    phone_number = input('Введите номер телефона: ')
+    with open(file, 'a', encoding='utf-8') as f:
+        f.write(f'{first_name}, {last_name}, {patronymic}, {phone_number}\n')
 
 # функция поиска данных
 def search_data():
