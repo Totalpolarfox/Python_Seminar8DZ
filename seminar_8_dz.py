@@ -10,8 +10,9 @@
 #    Пользователь вводит номер строки, которую необходимо перенести из одного файла в другой.
 
 # функция вывода данных
-def show_data():
-    pass
+def show_data(data: list):
+    for line in data:
+        print(line)
 
 # функция чтения данных
 def read_data(file):
@@ -32,6 +33,7 @@ def write_data(file):
     phone_number = input('Введите номер телефона: ')
     with open(file, 'a', encoding='utf-8') as f:
         f.write(f'{first_name}, {last_name}, {patronymic}, {phone_number}\n')
+    print('\u001b[32mЗапись внесена\u001b[0m')
 
 # функция поиска данных
 def search_data():
