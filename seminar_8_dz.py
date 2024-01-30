@@ -14,8 +14,14 @@ def show_data():
     pass
 
 # функция чтения данных
-def read_data():
-    pass
+def read_data(file):
+    try:
+        with open(file, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+            return lines
+    except FileNotFoundError:
+        print('\u001b[31mФайл  не найден. Необходимо создать новый контакт\n\u001b[0m')
+        return []    
 
 # функция записи данных
 def write_data(file):
