@@ -35,10 +35,10 @@ def write_data(data, file):
 # функция записи нового контакта
 def write_contact(file):
     print('Введите данные контакта:')
-    first_name = input('Введите фамилию: ')
-    last_name = input('Введите имя: ')
-    patronymic = input('Введите отчество: ')
-    phone_number = input('Введите номер телефона: ')
+    first_name = input('  Введите фамилию: ')
+    last_name = input('  Введите имя: ')
+    patronymic = input('  Введите отчество: ')
+    phone_number = input('  Введите номер телефона: ')
     with open(file, 'a', encoding='utf-8') as f:
         f.write(f'{first_name}, {last_name}, {patronymic}, {phone_number}\n')
     print('\u001b[32mЗапись внесена\u001b[0m')
@@ -61,8 +61,17 @@ def select_entry(data):
     return entry
 
 # функция редактирования данных
-def edit_data(data):
-    pass
+def edit_data(data, number_element):
+    data.pop(number_element - 1)
+    print('Введите новые данные контакта:')
+    first_name = input('  Введите фамилию: ')
+    last_name = input('  Введите имя: ')
+    patronymic = input('  Введите отчество: ')
+    phone_number = input('  Введите номер телефона: ')
+    update_element = (f'{first_name}, {last_name}, {patronymic}, {phone_number}\n')  
+    data.insert(number_element-1, update_element)
+    print(f'Контакт {number_element}) обновлен.')
+    return data
 
 # функция удаления данных
 def del_data(data, number_element):
@@ -110,7 +119,11 @@ def main():
             print('Выбрано: \u001b[32mРедактировать контакт \u001b[0m')
             data = read_data(file_name)
             show_data(data)
-            #edit_data(data)
+            number_element = select_entry(data)
+            if number_element > 0:
+                update_data = edit_data(data, number_element)
+            write_data(update_data, file_name)
+#-------------------------------------------------------------------------------------
         elif answer == '5':
             print('Выбрано: \u001b[32mУдалить контакт \u001b[0m')
             data = read_data(file_name)
