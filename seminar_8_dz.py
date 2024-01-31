@@ -16,7 +16,7 @@ def show_data(data: list):
     for index, element in enumerate(data, 1):
         print(f'{index}) {element}', end="")
 
-# функция чтения данных
+# функция чтения данных из файла
 def read_data(file):
     try:
         with open(file, 'r', encoding='utf-8') as f:
@@ -25,6 +25,12 @@ def read_data(file):
     except FileNotFoundError:
         print('\u001b[31mФайл  не найден. Необходимо создать новый контакт\n\u001b[0m')
         return []    
+
+# функция записи данных в файл
+def write_data(data, file):
+    with open(file, 'w', encoding='utf-8') as f:
+        for element in data:
+            f.write(element)
 
 # функция записи нового контакта
 def write_contact(file):
@@ -41,7 +47,6 @@ def write_contact(file):
 def search_data(contacts: list[str]):
     search_str = input('Введите данные для поиска: ')
     founded = []
-    # search_idx
     for contact in contacts:
         if search_str.lower() in contact.lower():
             founded.append(contact)
@@ -63,7 +68,7 @@ def edit_data(data):
 def del_data(data, number_element):
     print(f'Контакт {number_element}) удален.')
     data.pop(number_element - 1)
-    print(data)
+    return data
 
 # функция копирования данных
 def copy_data():
@@ -96,7 +101,7 @@ def main():
             print('Выбрано: \u001b[32mПоиск контакта \u001b[0m')
             data = read_data(file_name)
             founded_data = search_data(data)
-            print('Выбрано: \u001b[32mПо Вашему запросу найдено: \u001b[0m')
+            print('\u001b[32mПо Вашему запросу найдено: \u001b[0m')
             show_data(founded_data)
         elif answer == '3':
             print('Выбрано: \u001b[32mСохранить новый контакт \u001b[0m')
@@ -112,7 +117,8 @@ def main():
             show_data(data)
             number_element = select_entry(data)
             if number_element > 0:
-                del_data(data, number_element)
+                update_data = del_data(data, number_element)
+            write_data(update_data, file_name)
         elif answer == '6':
             print('Выбрано: \u001b[32mСохранить контакт в новый файл \u001b[0m')
             data = read_data(file_name)
