@@ -12,12 +12,21 @@
 import os
 
 # функция вывода данных
-def show_data(data: list):
+def show_data(data: list[str]):
+    '''
+    Функция выводит построчно элементы списка, добавляя в начало номер строки, начиная с 1
+    '''
     for index, element in enumerate(data, 1):
         print(f'{index}) {element}', end="")
 
 # функция чтения данных из файла
-def read_data(file):
+def read_data(file: str = 'file name'):
+    '''
+    Функция производит чтение данных из заданного файла.\n
+    Обработка исключений проводится. (Если файл не найден - выведем сообщение о этом).\n
+    Записывает полученные данные в список (элементы - строки из файла).\n
+    Возвращает список.
+    '''
     try:
         with open(file, 'r', encoding='utf-8') as f:
             lines = f.readlines()
@@ -27,13 +36,19 @@ def read_data(file):
         return []    
 
 # функция записи данных в файл
-def write_data(data, file):
+def write_data(data: list[str], file: str):
+    '''
+    Функция записывает данные из списка (поэлементно) в указанный файл.
+    '''
     with open(file, 'w', encoding='utf-8') as f:
         for element in data:
             f.write(element)
 
 # функция записи нового контакта
-def write_contact(file):
+def write_contact(file: str = 'file name'):
+    '''
+    Функция запрашивает ввод данных и записывает в указанный файл.
+    '''
     print('Введите данные контакта:')
     first_name = input('  Введите фамилию: ')
     last_name = input('  Введите имя: ')
@@ -45,6 +60,12 @@ def write_contact(file):
 
 # функция поиска данных
 def search_data(contacts: list[str]):
+    '''
+    Функция производит поиск введенных данных по элементам указанного списка. \n
+    Приводит к нижнему регистру данные и запроса и элементов списка. \n
+    Совпадающие с запросом элементы записывает в новый список.\n
+    Возвращает список.
+    '''
     search_str = input('Введите данные для поиска: ')
     founded = []
     for contact in contacts:
@@ -53,7 +74,11 @@ def search_data(contacts: list[str]):
     return founded
 
 # функция выбора элемента
-def select_entry(data):
+def select_entry(data: list[str]):
+    '''
+    Функция возвращает введенное пользователем число. \n
+    Если введенное число больше, чем длина списка на входе - возвращает -1.
+    '''
     entry = int(input('Введите номер записи, c которой будем работать: '))
     if entry > len(data):
         print('\u001b[31mТакого номера в этом списке нет\u001b[0m')
@@ -61,7 +86,13 @@ def select_entry(data):
     return entry
 
 # функция редактирования данных
-def edit_data(data, number_element):
+def edit_data(data: list[str], number_element: int):
+    '''
+    Функция редактирует список: \n
+    - удаляет элемент списка по указанному индексу, \n
+    - сохраняет введенные данные в элемент списка под тем же индексом. \n
+    Возвращает обновленный список.
+    '''
     data.pop(number_element - 1)
     print('Введите новые данные контакта:')
     first_name = input('  Введите фамилию: ')
@@ -74,14 +105,25 @@ def edit_data(data, number_element):
     return data
 
 # функция удаления данных
-def del_data(data, number_element):
+def del_data(data: list[str], number_element: int):
+    '''
+    Функция удаляет элемент списка по указанному индексу. \n
+    Возвращает обновленный список.
+    '''
     print(f'Контакт {number_element}) удален.')
     data.pop(number_element - 1)
     return data
 
 # функция копирования данных
-def copy_data():
-    pass
+def copy_data(data: list[str], number_element: int):
+    '''
+    Функция добавляет из указанного списка указанный элемент в файл, указанный пользователем. \n
+    Если файл не существует - он будет создан.
+    '''
+    new_file = input('Введите имя файла, в который будем сохранять контакт: ')
+    with open(new_file, 'a', encoding='utf-8') as f:
+        f.write(data[number_element - 1])
+    print(f'Контакт успешно добавлен в файл {new_file}')
 
 # Код действий пользователя
 def main():
@@ -123,7 +165,6 @@ def main():
             if number_element > 0:
                 update_data = edit_data(data, number_element)
             write_data(update_data, file_name)
-#-------------------------------------------------------------------------------------
         elif answer == '5':
             print('Выбрано: \u001b[32mУдалить контакт \u001b[0m')
             data = read_data(file_name)
@@ -136,7 +177,10 @@ def main():
             print('Выбрано: \u001b[32mСохранить контакт в новый файл \u001b[0m')
             data = read_data(file_name)
             show_data(data)
-            copy_data(data)
+            number_element = select_entry(data)
+            if number_element > 0:
+                update_data = copy_data(data, number_element)
+            #copy_data(data)
 
 if __name__ == '__main__':
     main()
