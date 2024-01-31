@@ -9,10 +9,12 @@
 # 6. Дополнить справочник возможностью копирования данных из одного файла в другой. 
 #    Пользователь вводит номер строки, которую необходимо перенести из одного файла в другой.
 
+import os
+
 # функция вывода данных
 def show_data(data: list):
-    for line in data:
-        print(line)
+    for index, element in enumerate(data, 1):
+        print(f'{index}) {element}', end="")
 
 # функция чтения данных
 def read_data(file):
@@ -24,8 +26,8 @@ def read_data(file):
         print('\u001b[31mФайл  не найден. Необходимо создать новый контакт\n\u001b[0m')
         return []    
 
-# функция записи данных
-def write_data(file):
+# функция записи нового контакта
+def write_contact(file):
     print('Введите данные контакта:')
     first_name = input('Введите фамилию: ')
     last_name = input('Введите имя: ')
@@ -36,16 +38,28 @@ def write_data(file):
     print('\u001b[32mЗапись внесена\u001b[0m')
 
 # функция поиска данных
-def search_data():
-    pass
+def search_data(contacts: list[str]):
+    search_str = input('Введите данные для поиска: ')
+    founded = []
+    # search_idx
+    for contact in contacts:
+        if search_str.lower() in contact.lower():
+            founded.append(contact)
+    return founded
 
 # функция редактирования данных
-def edit_data():
+def edit_data(data):
     pass
 
 # функция удаления данных
-def del_data():
-    pass
+def del_data(data):
+    entry = int(input('Введите номер записи, которую будем удалять: '))
+    if entry > len(data):
+        print('\u001b[31mТакого номера в этом списке нет\u001b[0m')
+    else:
+        print(f'Контакт {entry}) удален.')
+        data.pop(entry - 1)
+        print(data)
 
 # функция копирования данных
 def copy_data():
@@ -67,31 +81,36 @@ def main():
         print()
         answer = input('\u001b[4mВыберите необходимое действие:\u001b[0m ')
         if answer == '0':
-            print('\u001b[32mВыход из программы \u001b[0m')
+            os.system('cls')
+            print('Выбрано: \u001b[32mВыход из программы \u001b[0m')
             flag = False
         elif answer == '1':
-            print('\u001b[32mПоказать все контакты \u001b[0m')
+            print('Выбрано: \u001b[32mПоказать все контакты \u001b[0m')
             data = read_data(file_name)
             show_data(data)
         elif answer == '2':
-            print('\u001b[32mПоиск контакта \u001b[0m')
+            print('Выбрано: \u001b[32mПоиск контакта \u001b[0m')
             data = read_data(file_name)
             founded_data = search_data(data)
+            print('Выбрано: \u001b[32mПо Вашему запросу найдено: \u001b[0m')
             show_data(founded_data)
         elif answer == '3':
-            print('\u001b[32mСохранить новый контакт \u001b[0m')
-            write_data(file_name)
+            print('Выбрано: \u001b[32mСохранить новый контакт \u001b[0m')
+            write_contact(file_name)
         elif answer == '4':
-            print('\u001b[32mРедактировать контакт \u001b[0m')
+            print('Выбрано: \u001b[32mРедактировать контакт \u001b[0m')
             data = read_data(file_name)
-            edit_data(data)
+            show_data(data)
+            #edit_data(data)
         elif answer == '5':
-            print('\u001b[32mУдалить контакт \u001b[0m')
+            print('Выбрано: \u001b[32mУдалить контакт \u001b[0m')
             data = read_data(file_name)
+            show_data(data)
             del_data(data)
         elif answer == '6':
-            print('\u001b[32mСохранить контакт в новый файл \u001b[0m')
+            print('Выбрано: \u001b[32mСохранить контакт в новый файл \u001b[0m')
             data = read_data(file_name)
+            show_data(data)
             copy_data(data)
 
 if __name__ == '__main__':
