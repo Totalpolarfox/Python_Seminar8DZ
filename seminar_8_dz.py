@@ -47,19 +47,23 @@ def search_data(contacts: list[str]):
             founded.append(contact)
     return founded
 
+# функция выбора элемента
+def select_entry(data):
+    entry = int(input('Введите номер записи, c которой будем работать: '))
+    if entry > len(data):
+        print('\u001b[31mТакого номера в этом списке нет\u001b[0m')
+        return -1
+    return entry
+
 # функция редактирования данных
 def edit_data(data):
     pass
 
 # функция удаления данных
-def del_data(data):
-    entry = int(input('Введите номер записи, которую будем удалять: '))
-    if entry > len(data):
-        print('\u001b[31mТакого номера в этом списке нет\u001b[0m')
-    else:
-        print(f'Контакт {entry}) удален.')
-        data.pop(entry - 1)
-        print(data)
+def del_data(data, number_element):
+    print(f'Контакт {number_element}) удален.')
+    data.pop(number_element - 1)
+    print(data)
 
 # функция копирования данных
 def copy_data():
@@ -106,7 +110,9 @@ def main():
             print('Выбрано: \u001b[32mУдалить контакт \u001b[0m')
             data = read_data(file_name)
             show_data(data)
-            del_data(data)
+            number_element = select_entry(data)
+            if number_element > 0:
+                del_data(data, number_element)
         elif answer == '6':
             print('Выбрано: \u001b[32mСохранить контакт в новый файл \u001b[0m')
             data = read_data(file_name)
